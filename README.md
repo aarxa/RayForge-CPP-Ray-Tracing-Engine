@@ -1,5 +1,7 @@
 # RayForge: C++ Ray Tracing Engine
 
+**This project is part of a Computer Graphics class I took under Crane He Chen at Northeastern University, so not all code in this repository is originally mine.**
+
 RayForge is a C++14 ray tracing engine that parses custom `.ray` scene files and renders physically-inspired images with recursive lighting effects.  
 The project focuses on core rendering systems: geometric intersections, scene-graph composition, multiple light models, material response, reflections/refractions, texture mapping, and acceleration via bounding boxes.
 
