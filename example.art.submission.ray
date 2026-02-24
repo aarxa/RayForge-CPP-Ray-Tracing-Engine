@@ -1,0 +1,21 @@
+#camera  0 10 10  0 -0.707107 -0.707107  0 0.707107 -0.707107  0.523
+#light_dir  0.5 0.5 0.5  0.3 0.3 0.3  0.3 0.3 0.3  -0.707107 -0.707107 0
+#light_point  0.5 0.5 0.5  0.3 0.3 0.3  0.3 0.3 0.3  10 10 0  1 0 0.001
+#light_spot  0.5 0.5 0.5  0.4 0.4 0.4  0.4 0.4 0.4  10 10 0  -0.707107 -0.707107 0  1 0 0.001  0.15 64
+
+#ray_file  _sphere.ray
+#ray_file  _sphere.ray
+#ray_file  _sphere.ray
+#ray_file  _sphere.ray
+#ray_file  _squarec.ray
+
+#static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 0 2.5 0 1
+  #ray_file_instance  0
+#static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 -2 2.5 0.3 1
+  #ray_file_instance  1
+#static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 1 2.5 0.6 1
+  #ray_file_instance  2
+#static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 -1.2 2.5 1.5 1
+  #ray_file_instance  3
+#static_affine  1 0 -1 0 0 1 0 0 1 0 1 0 0 0 0 1
+  #ray_file_instance  4

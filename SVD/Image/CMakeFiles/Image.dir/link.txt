@@ -1,0 +1,2 @@
+/usr/bin/ar qc libImage.a CMakeFiles/Image.dir/bmp.cpp.o CMakeFiles/Image.dir/image.cpp.o CMakeFiles/Image.dir/image.todo.cpp.o CMakeFiles/Image.dir/jpeg.cpp.o CMakeFiles/Image.dir/lineSegments.cpp.o CMakeFiles/Image.dir/lineSegments.todo.cpp.o
+/usr/bin/ranlib libImage.a

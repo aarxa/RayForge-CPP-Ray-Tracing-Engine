@@ -1,0 +1,14 @@
+#camera  0 0 0  0 0 0  0 0 0  0
+
+#material  0 0 0  0 0 0  0 0 0  0.5 0.5 0.5 128  1 1 1  1.05  -1  !!
+#material  0 0 0  0.5 0.5 0.5  1 1 1  0 0 0 128  0 0 0  1.05  -1  !!
+
+#shape_intersection
+  #shape_list_begin
+    #shape_sphere  0  0 -0.95 0  1.5
+    #shape_sphere  0  0 0.95 0  1.5
+    #shape_cylinder  0  0 0 0  1  2
+  #shape_list_end
+#shape_difference
+   #shape_cylinder  1  0 0 0  1.1  0.3
+   #shape_cylinder  1  0 0 0  1  1

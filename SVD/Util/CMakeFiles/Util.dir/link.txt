@@ -1,0 +1,2 @@
+/usr/bin/ar qc libUtil.a CMakeFiles/Util.dir/geometry.cpp.o CMakeFiles/Util.dir/interpolation.cpp.o CMakeFiles/Util.dir/poly34.cpp.o
+/usr/bin/ranlib libUtil.a

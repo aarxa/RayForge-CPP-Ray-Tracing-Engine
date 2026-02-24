@@ -1,0 +1,18 @@
+#camera  0 5 5  0 -0.707107 -0.707107  0 0.707107 -0.707107  0.523
+#light_dir  0.5 0.5 0.5  1 1 1  1 1 1  -0.707107 -0.707107 0
+
+#material  0 0 0  0.3 0.3 0.3  0.5 0.1 0.1  1 1 1 100  0 0 0  1  -1  !!
+#ray_file  _dog.ray
+#vertex  -2 0 2  0 1 0  0 0
+#vertex  2 0 2  0 1 0  0 0
+#vertex  2 0 -2  0 1 0  0 0
+#vertex  -2 0 -2  0 1 0  0 0
+
+#static_affine  1 0 0 0 0 1 0 0 0 0 1 0 -0.2 0.75 0 1
+  #static_affine  1e-05 0 0 0 0 1e-05 0 0 0 0 1e-05 0 0 0 0 1
+    #ray_file_instance  0
+#shape_triangles  0
+  #shape_list_begin
+    #shape_triangle  0 1 2
+    #shape_triangle  0 2 3
+  #shape_list_end

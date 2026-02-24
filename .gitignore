@@ -1,0 +1,28 @@
+# Build artifacts
+build/
+Bin/
+SVD/CMakeFiles/
+SVD/CMakeCache.txt
+SVD/cmake_install.cmake
+SVD/Makefile
+
+# IDE / OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Compiled binaries and static libs
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.exe
+
+# Rendered outputs / generated assets
+output*.bmp
+test.bmp
+
+# GitHub hard file-size limit blockers (>100MB)
+gargoyle.ray
+nefertiti.ray

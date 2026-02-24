@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2 - Peek the museum through a glass egg!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 20px;
+            border-bottom: 1px solid #666;
+            padding-bottom: 5px;
+        }
+        .section {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .highlight {
+            color: #0066cc;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Assignment 2: Peek the museum through a glass egg!</h1>
+
+    <div class="section">
+        <h2>Overview</h2>
+        <p>
+            This submission for Assignment 2 includes my implementation of a ray tracing system, built upon the provided framework by xAI. I completed the required `.todo.cpp` files, tested them with unit test data, and created an artistic scene inspired by previous students work and what was expected for this class.        </p>
+    </div>
+
+    <div class="section">
+        <h2>1. Source Code Implementation</h2>
+        <p>
+            I implemented the following source files to extend the ray tracing functionality. Each file was completed to handle ray intersections, bounding boxes, and material properties as required by the framework:
+        </p>
+        <ul>
+            <li><span class="highlight">camera.todo.cpp</span>: Implemented <code>getRay</code> to generate rays from the camera, using perspective projection with field of view and aspect ratio.</li>
+            <li><span class="highlight">triangle.todo.cpp</span>: Implemented <code>intersect</code> with barycentric coordinates for accurate triangle-ray intersections, fixing texture mapping issues to display squares on the platform.</li>
+            <li><span class="highlight">pointLight.todo.cpp</span>: Fully implemented ambient, diffuse, specular, shadow, and transparency methods for point light sources.</li>
+            <li><span class="highlight">sphere.todo.cpp</span>: Provided by the instructor, used as a reference for intersection and normal calculations.</li>
+            <li><span class="highlight">directionalLight.todo.cpp</span>: Implemented uniform lighting with no attenuation, ensuring parallel rays and sharp shadows.</li>
+            <li><span class="highlight">spotLight.todo.cpp</span>: Added cone-based lighting with angular fall-off, refined to distinguish from point lights.</li>
+            <li><span class="highlight">cone.todo.cpp</span>: Implemented intersection with quadratic equations for the cone surface and base, added bounding box and inside checks.</li>
+            <li><span class="highlight">cylinder.todo.cpp</span>: Implemented intersection for curved surface and caps, completed bounding box and inside methods.</li>
+            <li><span class="highlight">torus.todo.cpp</span>: Used numerical approximation for intersection due to complex quartic equations, added bounding box and inside checks.</li>
+        </ul>
+        <p>
+            Key challenges included fixing texture mapping on triangles (from parallelograms to squares), ensuring directional and spot lights differed from point lights, and implementing bounding boxes to prevent runtime exceptions. All `.todo.cpp` files were tested and debugged to work with the framework.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>2. Data Used</h2>
+        <h3>Provided Unit Test Data</h3>
+        <p>
+            The assignment included unit test data in the <code>Assignment2.zip</code>:
+        </p>
+        <ul>
+            <li><code>test.point.ray</code>, <code>_sphere.ray</code>, <code>_square.ray</code>: Original scene with one sphere and a checkered platform.</li>
+            <li><code>test.directional.ray</code></li>
+            <li><code>test.spot.ray</code></li>
+            <li><code>test.directional.cone.ray</code></li>
+            <li><code>test.directional.cylinder.ray</code></li>
+            <li><code>creative2.ray</code></li>
+            <li><code>creative3.ray</code></li>
+            <li><code>david.ray</code></li>
+            <li><code>dog.ray</code></li>
+            <li><code>dragon.ray</code></li>
+        </ul>
+        <p>
+            These were used to verify my implementations against expected outputs.
+        </p>
+
+        <h3>Custom Data for Art Contest</h3>
+        <p>
+            I created additional `.ray` files and modified the main scene for creativity:
+        </p>
+        <ul>
+            <li><code>art_submission1.ray</code></li>
+            <li><code>art_submission1.ray</code></li>
+            <li><code>_squarec.ray</code></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. Results</h2>
+        <h3>Unit Test Results</h3>
+        <p>
+            Below are the rendered outputs from the provided unit test data, confirming the correctness of my implementations:
+        </p>
+        <h4>Test Point Light Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "test.point.ray" --out "output_point.bmp"</code>
+        </p>
+        <img src="output_point.bmp" alt="Unit Test: Point light">
+        <p>
+            This shows a single sphere above a checkered platform, lit by a point light.
+        </p>
+
+        <h4>Test Directional Light Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "test.directional.ray" --out "output_directional.bmp"</code>
+        </p>
+        <img src="output_directional.bmp" alt="Unit Test: Directional light">
+
+        <h4>Test Spot Light Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "test.spot.ray" --out "output_spot.bmp"</code>
+        </p>
+        <img src="output_spot.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test Directional Cone Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "test.directional.cone.ray" --out "output_cone.bmp"</code>
+        </p>
+        <img src="output_cone.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test Directional Cylinder Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "test.directional.cylinder.ray" --out "output_cylinder.bmp"</code>
+        </p>
+        <img src="output_cylinder.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test Creative 2 Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "creative2.ray" --out "output_creative2.bmp"</code>
+        </p>
+        <img src="output_creative2.bmp" alt="Unit Test: Spot light">
+    
+        <h4>Test Creative 3 Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "creative3.ray" --out "output_creative3.bmp"</code>
+        </p>
+        <img src="output_creative3.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test David Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "david.ray" --out "output_david.bmp"</code>
+        </p>
+        <img src="output_david.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test Dog Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "dog.ray" --out "output_dog.bmp"</code>
+        </p>
+        <img src="output_dog.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test Dragon Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "dragon.ray" --out "output_dragon.bmp"</code>
+        </p>
+        <img src="output_dragon.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test Gargoyle Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "gargoyle.ray" --out "output_gargoyle.bmp"</code>
+        </p>
+        <img src="output_gargoyle.bmp" alt="Unit Test: Spot light">
+
+        <h4>Test Nefertiti Ray</h4>
+        <p>
+            Command: <code>./Assignment2 --in "nefertiti.ray" --out "output_nefertiti.bmp"</code>
+        </p>
+        <img src="output_nefertiti.bmp" alt="Unit Test: Spot light">
+
+
+
+        <h3>Artistic Result</h3>
+        <p>
+            Inspired by previous students work, I created a scene with multiple spheres platforms, using diverse lighting:
+        </p>
+        <h4>Creative Scene 1</h4>
+        <p>
+            File: <code>art_submission1.ray</code><br>
+            Command: <code>./Assignment2 --in "art_submission1.ray" --out "output_art_submission1.bmp"</code>
+        </p>
+        <pre>
+            
+            #camera  0 10 10  0 -0.707107 -0.707107  0 0.707107 -0.707107  0.523
+            #light_dir  0.5 0.5 0.5  0.3 0.3 0.3  0.3 0.3 0.3  -0.707107 -0.707107 0
+            #light_point  0.5 0.5 0.5  0.3 0.3 0.3  0.3 0.3 0.3  10 10 0  1 0 0.001
+            #light_spot  0.5 0.5 0.5  0.4 0.4 0.4  0.4 0.4 0.4  10 10 0  -0.707107 -0.707107 0  1 0 0.001  0.15 64
+            
+            #ray_file  _sphere.ray
+            #ray_file  _sphere.ray
+            #ray_file  _sphere.ray
+            #ray_file  _sphere.ray
+            #ray_file  _squarec.ray
+            
+            #static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 0 2.5 0 1
+              #ray_file_instance  0
+            #static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 -2 2.5 0.3 1
+              #ray_file_instance  1
+            #static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 1 2.5 0.6 1
+              #ray_file_instance  2
+            #static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 -1.2 2.5 1.5 1
+              #ray_file_instance  3
+            #static_affine  1 0 -1 0 0 1 0 0 1 0 1 0 0 0 0 1
+              #ray_file_instance  4
+        </pre>
+        <img src="output_art_submission5.bmp" alt="Artistic Scene: Spheres and Space">
+        <img src="output_art_submission1.bmp" alt="Artistic Scene: Spheres and Space">
+        <img src="output_art_submission2.bmp" alt="Artistic Scene: Spheres and Space">
+        <img src="output_art_submission3.bmp" alt="Artistic Scene: Spheres and Space">
+        <p>
+            This scene features four spheres, and different platforms. The directional light casts broad illumination, the point light adds a soft glow from above, and the spotlight highlights the sphere with a tight beam, creating depth and contrast.
+        </p>
+
+
+        <h4>Creative Scene 2</h4>
+        <p>
+            File: <code>art_submission2.ray</code><br>
+            Command: <code>./Assignment2 --in "art_submission2.ray" --out "output_art_submission6.bmp"</code>
+        </p>
+        <pre>
+            
+            #camera  0 10 10  0 -0.707107 -0.707107  0 0.707107 -0.707107  0.523
+            #light_dir  0.5 0.5 0.5  1 1 1  1 1 1  -0.707107 -0.707107 0
+            #light_point  0.5 0.5 0.5  0.3 0.3 0.3  0.3 0.3 0.3  10 10 0  1 0 0.001
+            
+            #ray_file  _sphere.ray
+            #ray_file  _squarec.ray
+            
+            #static_affine  0.5 0 0 0 0 1 0 0 0 0 0.5 0 0 2.5 0 1
+            #ray_file_instance  0
+            #static_affine  1 0 -1 0 0 1 0 0 1 0 1 0 0 0 0 1
+            #ray_file_instance  1
+        </pre>
+        <img src="output_art_submission6.bmp" alt="Artistic Scene: Spheres and Space">
+        <img src="output_art_submission4.bmp" alt="Artistic Scene: Spheres and Space">
+        <p>
+            This scene features one sphere, and a platform. The directional light casts broad illumination, the point light adds a soft glow from above.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>4. Conclusion</h2>
+        <p>
+            Completing this assignment involved implementing core ray tracing functionality across various shapes and lights, debugging issues like texture mapping and light differentiation, and exploring creative possibilities. All source code and data are included in the submission zip.
+        </p>
+    </div>
+</body>
+</html>

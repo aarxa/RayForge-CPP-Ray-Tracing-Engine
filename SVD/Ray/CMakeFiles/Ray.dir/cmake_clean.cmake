@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/Ray.dir/GLSLProgram.cpp.o"
+  "CMakeFiles/Ray.dir/GLSLProgram.cpp.o.d"
+  "CMakeFiles/Ray.dir/box.cpp.o"
+  "CMakeFiles/Ray.dir/box.cpp.o.d"
+  "CMakeFiles/Ray.dir/camera.cpp.o"
+  "CMakeFiles/Ray.dir/camera.cpp.o.d"
+  "CMakeFiles/Ray.dir/cone.cpp.o"
+  "CMakeFiles/Ray.dir/cone.cpp.o.d"
+  "CMakeFiles/Ray.dir/cylinder.cpp.o"
+  "CMakeFiles/Ray.dir/cylinder.cpp.o.d"
+  "CMakeFiles/Ray.dir/directionalLight.cpp.o"
+  "CMakeFiles/Ray.dir/directionalLight.cpp.o.d"
+  "CMakeFiles/Ray.dir/fileInstance.cpp.o"
+  "CMakeFiles/Ray.dir/fileInstance.cpp.o.d"
+  "CMakeFiles/Ray.dir/mouse.cpp.o"
+  "CMakeFiles/Ray.dir/mouse.cpp.o.d"
+  "CMakeFiles/Ray.dir/pointLight.cpp.o"
+  "CMakeFiles/Ray.dir/pointLight.cpp.o.d"
+  "CMakeFiles/Ray.dir/scene.cpp.o"
+  "CMakeFiles/Ray.dir/scene.cpp.o.d"
+  "CMakeFiles/Ray.dir/shape.cpp.o"
+  "CMakeFiles/Ray.dir/shape.cpp.o.d"
+  "CMakeFiles/Ray.dir/sphere.cpp.o"
+  "CMakeFiles/Ray.dir/sphere.cpp.o.d"
+  "CMakeFiles/Ray.dir/spotLight.cpp.o"
+  "CMakeFiles/Ray.dir/spotLight.cpp.o.d"
+  "CMakeFiles/Ray.dir/torus.cpp.o"
+  "CMakeFiles/Ray.dir/torus.cpp.o.d"
+  "CMakeFiles/Ray.dir/triangle.cpp.o"
+  "CMakeFiles/Ray.dir/triangle.cpp.o.d"
+  "CMakeFiles/Ray.dir/window.cpp.o"
+  "CMakeFiles/Ray.dir/window.cpp.o.d"
+  "libRay.a"
+  "libRay.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/Ray.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
