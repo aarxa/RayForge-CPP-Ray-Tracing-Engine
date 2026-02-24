@@ -22,6 +22,7 @@ SVD/Makefile
 # Rendered outputs / generated assets
 output*.bmp
 test.bmp
+!output_*.bmp
 
 # GitHub hard file-size limit blockers (>100MB)
 gargoyle.ray
