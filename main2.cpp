@@ -29,10 +29,11 @@ CmdLineParameter< int > ImageWidth( "width" , 640 );
 CmdLineParameter< int > ImageHeight( "height" , 480 );
 CmdLineParameter< int > RecursionLimit( "rLimit" , 5 );
 CmdLineParameter< float > CutOffThreshold( "cutOff" , 0.0001f );
+CmdLineParameter< int > ThreadNum( "threads" , 0 );
 
 CmdLineReadable* params[] =
 {
-	&InputRayFile , &OutputImageFile , &ImageWidth , &ImageHeight , &RecursionLimit , &CutOffThreshold ,
+	&InputRayFile , &OutputImageFile , &ImageWidth , &ImageHeight , &RecursionLimit , &CutOffThreshold , &ThreadNum ,
 	NULL
 };
 
@@ -45,6 +46,7 @@ void ShowUsage( const string &ex )
 	cout << "\t[--" << ImageHeight.name << " <image height>=" << ImageHeight.value << "]" << endl;
 	cout << "\t[--" << RecursionLimit.name << " <recursion limit>=" << RecursionLimit.value << "]" << endl;
 	cout << "\t[--" << CutOffThreshold.name << " <cut-off threshold>=" << CutOffThreshold.value << "]" << endl;
+	cout << "\t[--" << ThreadNum.name << " <number of render threads, 0 = all hardware threads>=" << ThreadNum.value << "]" << endl;
 }
 
 /** A wrapper class for size_t that prints out comma-separated numbers */
@@ -116,7 +118,7 @@ int main( int argc , char *argv[] )
 
 		timer.reset();
 		RayTracingStats::Reset();
-		Image32 img = scene.rayTrace( ImageWidth.value , ImageHeight.value , RecursionLimit.value , CutOffThreshold.value );
+		Image32 img = scene.rayTrace( ImageWidth.value , ImageHeight.value , RecursionLimit.value , CutOffThreshold.value , ThreadNum.value );
 		std::cout << "\tRay-traced: " << timer.elapsed() << " seconds" << std::endl;
 		std::cout << "\tPixels: " << Size_t( ImageWidth.value ) << " x " << Size_t( ImageHeight.value ) << std::endl;
 		std::cout << "\tPrimitives: " << Size_t( scene.primitiveNum() ) << std::endl;

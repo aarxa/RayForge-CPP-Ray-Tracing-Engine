@@ -8,7 +8,9 @@ using namespace Util;
 //////////////
 // Triangle //
 //////////////
-Triangle::Triangle( void ) { _v[0] = _v[1] = _v[2] = NULL; }
+// _read never sets _materialIndex (a triangle takes its material from its TriangleList),
+// so initialize it here instead of leaving init to read uninitialized memory.
+Triangle::Triangle( void ) : _materialIndex(0) { _v[0] = _v[1] = _v[2] = NULL; }
 
 void Triangle::_read( std::istream &stream )
 {

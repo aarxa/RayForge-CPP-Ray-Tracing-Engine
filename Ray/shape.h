@@ -1,6 +1,7 @@
 #ifndef SHAPE_INCLUDED
 #define SHAPE_INCLUDED
 #include <vector>
+#include <atomic>
 #include <stdexcept>
 #include <string>
 #include <functional>
@@ -54,11 +55,19 @@ namespace Ray
 	/** This class stores information about the number of rays cast and the number of ray-primitive intersections performed. */
 	struct RayTracingStats
 	{
-		static size_t _RayNum;
-		static size_t _RayPrimitiveIntersectionNum;
-		static size_t _RayBoundingBoxIntersectionNum;
+		// Each thread counts into its own thread_local copy on the hot path. Incrementing
+		// shared atomics instead made every thread fight over one cache line, and 12 threads
+		// rendered ~4x slower than one. Flush adds a thread's counts to the shared totals once.
+		static thread_local size_t _LocalRayNum;
+		static thread_local size_t _LocalRayPrimitiveIntersectionNum;
+		static thread_local size_t _LocalRayBoundingBoxIntersectionNum;
+		static std::atomic< size_t > _RayNum;
+		static std::atomic< size_t > _RayPrimitiveIntersectionNum;
+		static std::atomic< size_t > _RayBoundingBoxIntersectionNum;
 	public:
 
+		/** Adds the calling thread's counts to the totals. Call once when a thread finishes rendering. */
+		static void Flush( void );
 		static void Reset( void );
 		static void IncrementRayNum( void );
 		static void IncrementRayPrimitiveIntersectionNum( void );

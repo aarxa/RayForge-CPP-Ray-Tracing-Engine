@@ -1,6 +1,10 @@
 #include <fstream>
 #include <cctype>
 #include <cmath>
+#include <algorithm>
+#include <atomic>
+#include <thread>
+#include <vector>
 #include <Util/exceptions.h>
 #include <Util/cmdLineParser.h>
 #include <Image/bmp.h>
@@ -12,6 +16,9 @@ using namespace std;
 using namespace Ray;
 using namespace Util;
 using namespace Image;
+
+// Defined in scene.todo.cpp
+extern int max_recursion;
 
 namespace Ray
 {
@@ -497,32 +504,48 @@ void Scene::drawOpenGL( void ) const
 	ASSERT_OPEN_GL_STATE();	
 }
 
-Image32 Scene::rayTrace( int width , int height , int rLimit , double cLimit )
+Image32 Scene::rayTrace( int width , int height , int rLimit , double cLimit , int threadNum )
 {
 	updateBoundingBox();
 	Image32 img;
 
 	img.setSize( width , height );
-	for( int j=0 ; j<height ; j++ )
+
+	// getColor records the top-level recursion depth in a global the first time it runs.
+	// Set it before the threads start so that they only ever read it.
+	max_recursion = rLimit;
+
+	if( threadNum<=0 ) threadNum = std::max( 1u , std::thread::hardware_concurrency() );
+
+	// Rows that cross the model cost far more than rows of background, so instead of
+	// giving each thread a fixed band, threads take the next unrendered row from a shared counter.
+	std::atomic< int > nextRow( 0 );
+	auto renderRows = [&]( void )
 	{
-		for( int i=0 ; i<width ; i++ )
-		{   
-			
-			try
+		for( int j=nextRow++ ; j<height ; j=nextRow++ )
+		{
+			for( int i=0 ; i<width ; i++ )
 			{
-				Ray3D ray = _globalData.camera.getRay( i , height-j-1 , width , height );
-				// std::cout<<"i"<<i<<std::endl;
-				// std::cout<<"j"<<j<<std::endl;
-				Point3D c = getColor( ray , rLimit , Point3D( cLimit , cLimit , cLimit ) );
-				Pixel32 p;
-				p.r = (int)(c[0]*255);
-				p.g = (int)(c[1]*255);
-				p.b = (int)(c[2]*255);
-				img(i,j) = p;
+				try
+				{
+					Ray3D ray = _globalData.camera.getRay( i , height-j-1 , width , height );
+					Point3D c = getColor( ray , rLimit , Point3D( cLimit , cLimit , cLimit ) );
+					Pixel32 p;
+					p.r = (int)(c[0]*255);
+					p.g = (int)(c[1]*255);
+					p.b = (int)(c[2]*255);
+					img(i,j) = p;
+				}
+				catch( std::exception &e ){ ERROR_OUT( "failed to generate pixel ( %d , %d )\n%s" , i , j , e.what() ); }
 			}
-			catch( std::exception &e ){ ERROR_OUT( "failed to generate pixel ( %d , %d )\n%s" , i , j , e.what() ); }
 		}
-	}
+		RayTracingStats::Flush();
+	};
+
+	std::vector< std::thread > threads;
+	for( int t=1 ; t<threadNum ; t++ ) threads.emplace_back( renderRows );
+	renderRows();
+	for( std::thread &t : threads ) t.join();
 	return img;
 }
 

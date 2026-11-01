@@ -160,8 +160,9 @@ namespace Ray
 		*** or the contribution from subsequent bounces is guaranteed to be less than the cut-off. */
 		Util::Point3D getColor( Util::Ray3D ray , int rDepth , Util::Point3D cLimit);
 
-		/** This method ray-traces the scene and returns the computed image */
-		Image::Image32 rayTrace( int width , int height , int rLimit , double cLimit );
+		/** This method ray-traces the scene and returns the computed image.
+		*** Rows are rendered in parallel by threadNum threads (0 = one per hardware thread). */
+		Image::Image32 rayTrace( int width , int height , int rLimit , double cLimit , int threadNum=0 );
 
 		/** This method should be called (once) after an OpenGL context has been created */
 		void initOpenGL( void );

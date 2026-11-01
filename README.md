@@ -54,6 +54,42 @@ The project extends the provided framework by completing core `.todo.cpp` tasks 
 - `torus.todo.cpp`: torus intersection approximation + bounds + inside test
 - `scene.todo.cpp`: reflection, refraction, recursive color evaluation
 
+## Multithreaded Rendering (added after the course)
+
+Every pixel is computed independently, so I parallelized `Scene::rayTrace` with `std::thread`.
+Renders at 1920×1080 on an Apple M4 Pro (8 performance + 4 efficiency cores), best of 3:
+
+| Scene | Triangles | 1 thread | 8 threads | 12 threads | Speedup |
+|---|---:|---:|---:|---:|---:|
+| Dragon | 500K | 2.80 s | 0.50 s | 0.44 s | **6.3×** |
+| Buddha | 868K | 5.06 s | 0.91 s | 0.84 s | **6.0×** |
+| Bunny | 209K | 3.25 s | 0.54 s | 0.54 s | **6.1×** |
+
+![Thread scaling](scaling.png)
+
+Every output image is byte-for-byte identical to the original single-threaded render, the ray and
+intersection counts match exactly, and ThreadSanitizer reports no data races.
+
+### What I found
+
+- **Shared counters made it slower, not faster.** The renderer counts every ray and every
+  intersection test in static counters: about 190 million increments for the dragon. Making them
+  `std::atomic` fixed the data race but made every thread fight over the same cache line, and
+  **12 threads took 12.2 s against 2.8 s for one thread (4.4× slower)**. Giving each thread its own
+  `thread_local` counters and adding them to the totals once at the end removed the contention
+  (`Ray/shape.cpp`).
+- **Hidden shared state.** `getColor` writes a global `max_recursion` on every call. Its value is
+  always the top-level recursion limit after the first pixel, so `rayTrace` now sets it once before
+  the threads start, and the threads only read it.
+- **Load balancing.** Rows that cross the model cost much more than rows of background, so threads
+  take the next unrendered row from an atomic counter instead of getting fixed bands of rows.
+- **Scaling flattens past 8 threads** because the last 4 cores are slower efficiency cores.
+- **A latent bug.** Running under ThreadSanitizer exposed that `Triangle` never initialized
+  `_materialIndex`; normal builds only worked because fresh memory happened to be zero. It is now
+  initialized in the constructor.
+
+Reproduce with `scripts/bench_threads.sh > bench_results.csv` and `python3 scripts/plot_scaling.py`.
+
 ## Build and Run
 
 ### Requirements
@@ -82,6 +118,7 @@ Useful flags:
 - `--height` (default: `480`)
 - `--rLimit` (default: `5`)
 - `--cutOff` (default: `0.0001`)
+- `--threads` (default: `0`, one per hardware thread)
 
 ## Scene Inputs and Assets
 

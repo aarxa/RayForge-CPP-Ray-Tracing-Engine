@@ -27,3 +27,6 @@ test.bmp
 # GitHub hard file-size limit blockers (>100MB)
 gargoyle.ray
 nefertiti.ray
+
+# Sanitizer build
+build-tsan/

@@ -30,6 +30,7 @@ endif()
 
 # Find and link the system libraries
 find_package(OpenGL REQUIRED)
+find_package(Threads REQUIRED)
 
 # Set JPEG library paths
 set(JPEG_INCLUDE_DIR "/opt/homebrew/opt/jpeg/include")
@@ -44,7 +45,7 @@ link_directories(${JPEG_LIBRARY_DIR})
 add_executable(Assignment2 ${SRC_FILES})
 
 # Link libraries (Image, Util, Ray, GLEW, OpenGL)
-target_link_libraries(Assignment2 PRIVATE JPEG Image Util Ray GLEW ${OPENGL_LIBRARIES} ${JPEG_LIB} ${PLATFORM_LIBS})
+target_link_libraries(Assignment2 PRIVATE JPEG Image Util Ray GLEW ${OPENGL_LIBRARIES} ${JPEG_LIB} ${PLATFORM_LIBS} Threads::Threads)
 
 # Set include directories for dependencies
 target_include_directories(Assignment2 PRIVATE ${CMAKE_SOURCE_DIR}/GL ${CMAKE_SOURCE_DIR}/JPEG ${OPENGL_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/Image ${CMAKE_SOURCE_DIR}/Util ${CMAKE_SOURCE_DIR}/Ray ${JPEG_INCLUDE_DIR})
